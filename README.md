@@ -56,9 +56,22 @@ This is Java program written using [Nimbus JOSE+JWT](https://github.com/Connect2
 
    An example output:
    
-   `
-   EC Key Pair: {"kty":"EC","d":"vqxhk8WBniOHK2hSUEVy1ZQ_LBd1swIRNdTbILfNZns","use":"enc","crv":"P-256","kid":"123456789","x":"lZcvsxZJPUcAKYyyQt5WYPWazvL16-I1k5L2RA-nk7I","y":"fthQypUg4QHWF-Tt1byXLR49vn3rqZhjR_3ZlBN0OUc","alg":"ES256"}
-   EC Public Key: {"kty":"EC","use":"enc","crv":"P-256","kid":"123456789","x":"lZcvsxZJPUcAKYyyQt5WYPWazvL16-I1k5L2RA-nk7I","y":"fthQypUg4QHWF-Tt1byXLR49vn3rqZhjR_3ZlBN0OUc","alg":"ES256"}
+   ```bash
+   EC Key Pair: {"kty":"EC",
+   "d":"vqxhk8WBniOHK2hSUEVy1ZQ_LBd1swIRNdTbILfNZns",
+   "use":"enc","crv":"P-256","kid":"123456789",
+   "x":"lZcvsxZJPUcAKYyyQt5WYPWazvL16-I1k5L2RA-nk7I",
+   "y":"fthQypUg4QHWF-Tt1byXLR49vn3rqZhjR_3ZlBN0OUc",
+   "alg":"ES256"}
+   
+   EC Public Key: {"kty":"EC",
+   "use":"enc",
+   "crv":"P-256",
+   "kid":"123456789",
+   "x":"lZcvsxZJPUcAKYyyQt5WYPWazvL16-I1k5L2RA-nk7I",
+   "y":"fthQypUg4QHWF-Tt1byXLR49vn3rqZhjR_3ZlBN0OUc",
+   "alg":"ES256"}
+   
    JWT: eyJraWQiOiIxMjM0NTY3ODkiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvandrLmV4YW1wbGUuY29tIiwic3ViIjoiandrIiwiZXhwIjoxNjMwNTkxMjAwfQ.BcJ4t4RrqHY8Uu-YF2M5vcwLpp1O80qNTTPj_yAs0IQlxCR7w26C3a-azt3yCc_AjI-2Gj2xYv07qds06eR4vg
-   `
+   ```
 
