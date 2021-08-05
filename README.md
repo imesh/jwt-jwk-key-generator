@@ -20,7 +20,7 @@ This is Java program written using [Nimbus JOSE+JWT](https://github.com/Connect2
   JWTClaimsSet jwtClaimsSet = ECKeyManager
       .verifyJWT(jwt, keyPair.toPublicJWK(), JWSAlgorithm.ES256, subject, issuer);
 
-  // Verify the JWT claims and verify expiry date
+  // Verify the JWT claims and expiry date
   assertEquals(subject, jwtClaimsSet.getSubject());
   assertEquals(issuer, jwtClaimsSet.getIssuer());
   assertTrue(new Date().before(jwtClaimsSet.getExpirationTime()));
@@ -56,7 +56,7 @@ This is Java program written using [Nimbus JOSE+JWT](https://github.com/Connect2
         "crv":"P-256",
         "kid":"123456789",
         "x":"OqHlA-v92dZT1fJW5V_itda2PKfrQvS6QIDXOGiU44o","y":"MYkqs6sxJOQMc9R-jabCRcNRtjn8YBUNCrkp8C4n7rY","alg":"ES256"}
-        
+
     JWT: eyJraWQiOiIxMjM0NTY3ODkiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvandrLmV4YW1wbGUuY29tIiwic3ViIjoiand0IiwiZXhwIjoxNjMwNzY0MDAwfQ.DasBQS2CG-GzkIB_OQ09OXP4lKzU7ce2L7rFFIf3XqKKsPdTQ-LI8dapOvhCa5MwH_uDhHmtNKw1D-qFmxnnlw
    ```
 

@@ -28,7 +28,7 @@ public class Main {
       JWTClaimsSet jwtClaimsSet = ECKeyManager
           .verifyJWT(jwt, keyPair.toPublicJWK(), JWSAlgorithm.ES256, subject, issuer);
 
-      // Verify the JWT claims and verify expiry date
+      // Verify the JWT claims and expiry date
       assertEquals(subject, jwtClaimsSet.getSubject());
       assertEquals(issuer, jwtClaimsSet.getIssuer());
       assertTrue(new Date().before(jwtClaimsSet.getExpirationTime()));
