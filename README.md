@@ -5,40 +5,25 @@ This is Java program written using [Nimbus JOSE+JWT](https://github.com/Connect2
 ## Code
 
   ```java
-  // Generate an EC key pair
-  ECKey keyPair = new ECKeyGenerator(Curve.P_256)
-      .keyID("123456789")
-      .algorithm(new Algorithm("ES256"))
-      .keyUse(KeyUse.ENCRYPTION)
-      .generate();
+  // Generate EC key pair
+  ECKey keyPair = ECKeyManager.generateECKey("123456789", JWSAlgorithm.ES256, KeyUse.SIGNATURE);
   System.out.println("EC Key Pair: " + keyPair);
+  System.out.println("EC Public Key: " + keyPair.toPublicJWK());
 
-  ECKey ecPublicKey = keyPair.toPublicJWK();
-  System.out.println("EC Public Key: " + ecPublicKey);
+  // Generate JWT using EC key pair
+  String subject = "jwt";
+  String issuer = "https://jwk.example.com";
+  String jwt = ECKeyManager.generateJWT(keyPair, subject, issuer);
+  System.out.println("JWT: " + jwt);
 
-  // Create the EC signer
-  JWSSigner signer = new ECDSASigner(keyPair);
+  // Verify JWT and retrieve JWT claim set
+  JWTClaimsSet jwtClaimsSet = ECKeyManager
+      .verifyJWT(jwt, keyPair.toPublicJWK(), JWSAlgorithm.ES256, subject, issuer);
 
-  // Prepare JWT with claims set
-  LocalDate expirationLocalDate = LocalDate.now().plusMonths(1);
-  Date expirationDate = Date
-      .from(expirationLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-  JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-      .subject("jwk")
-      .issuer("https://jwk.example.com")
-      .expirationTime(expirationDate)
-      .build();
-
-  SignedJWT signedJWT = new SignedJWT(
-      new JWSHeader.Builder(JWSAlgorithm.ES256).keyID(keyPair.getKeyID()).build(),
-      claimsSet);
-
-  // Compute the EC signature
-  signedJWT.sign(signer);
-
-  // Serialize the JWS to compact form
-  String jwt = signedJWT.serialize();
-  System.out.println("JWT: " + jwt);  
+  // Verify the JWT claims and verify expiry date
+  assertEquals(subject, jwtClaimsSet.getSubject());
+  assertEquals(issuer, jwtClaimsSet.getIssuer());
+  assertTrue(new Date().before(jwtClaimsSet.getExpirationTime()));
   ```
 
 ## How to Run
@@ -57,21 +42,21 @@ This is Java program written using [Nimbus JOSE+JWT](https://github.com/Connect2
    An example output:
    
    ```bash
-   EC Key Pair: {"kty":"EC",
-   "d":"vqxhk8WBniOHK2hSUEVy1ZQ_LBd1swIRNdTbILfNZns",
-   "use":"enc","crv":"P-256","kid":"123456789",
-   "x":"lZcvsxZJPUcAKYyyQt5WYPWazvL16-I1k5L2RA-nk7I",
-   "y":"fthQypUg4QHWF-Tt1byXLR49vn3rqZhjR_3ZlBN0OUc",
-   "alg":"ES256"}
-   
-   EC Public Key: {"kty":"EC",
-   "use":"enc",
-   "crv":"P-256",
-   "kid":"123456789",
-   "x":"lZcvsxZJPUcAKYyyQt5WYPWazvL16-I1k5L2RA-nk7I",
-   "y":"fthQypUg4QHWF-Tt1byXLR49vn3rqZhjR_3ZlBN0OUc",
-   "alg":"ES256"}
-   
-   JWT: eyJraWQiOiIxMjM0NTY3ODkiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvandrLmV4YW1wbGUuY29tIiwic3ViIjoiandrIiwiZXhwIjoxNjMwNTkxMjAwfQ.BcJ4t4RrqHY8Uu-YF2M5vcwLpp1O80qNTTPj_yAs0IQlxCR7w26C3a-azt3yCc_AjI-2Gj2xYv07qds06eR4vg
+    EC Key Pair: {
+        "kty":"EC",
+        "d":"gEJtMNAEKSnnNRfdwKVEtE9C2-Bdm3gvDbhU_53xk-I",
+        "use":"sig",
+        "crv":"P-256",
+        "kid":"123456789",
+        "x":"OqHlA-v92dZT1fJW5V_itda2PKfrQvS6QIDXOGiU44o","y":"MYkqs6sxJOQMc9R-jabCRcNRtjn8YBUNCrkp8C4n7rY","alg":"ES256"}
+
+    EC Public Key: {
+        "kty":"EC",
+        "use":"sig",
+        "crv":"P-256",
+        "kid":"123456789",
+        "x":"OqHlA-v92dZT1fJW5V_itda2PKfrQvS6QIDXOGiU44o","y":"MYkqs6sxJOQMc9R-jabCRcNRtjn8YBUNCrkp8C4n7rY","alg":"ES256"}
+        
+    JWT: eyJraWQiOiIxMjM0NTY3ODkiLCJhbGciOiJFUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvandrLmV4YW1wbGUuY29tIiwic3ViIjoiand0IiwiZXhwIjoxNjMwNzY0MDAwfQ.DasBQS2CG-GzkIB_OQ09OXP4lKzU7ce2L7rFFIf3XqKKsPdTQ-LI8dapOvhCa5MwH_uDhHmtNKw1D-qFmxnnlw
    ```
 
